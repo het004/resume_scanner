@@ -1,0 +1,9 @@
+streamlit
+langchain
+faiss-cpu
+pymongo
+nltk
+spacy
+python-dotenv
+langchain
+langchain_community
