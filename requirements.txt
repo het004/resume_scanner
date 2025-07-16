@@ -1,9 +1,9 @@
-streamlit
+langchain==0.2.1
+langchain-core==0.2.1
+langchain-community==0.2.1
+unstructured[pdf,docx]
 faiss-cpu
 pymongo
-nltk
-spacy
+openai
 python-dotenv
-langchain
-langchain_community
-pymongo
+streamlit

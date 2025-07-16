@@ -2,7 +2,8 @@ import os
 from typing import List, Tuple
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import OllamaEmbeddings
-from langchain.schema import Document
+from langchain_core.documents import Document
+
 
 
 def load_vectorstore(index_name: str, model_name: str = "nomic-embed-text") -> FAISS:

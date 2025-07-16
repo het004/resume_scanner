@@ -1,7 +1,7 @@
 import os
 from pymongo import MongoClient
 from dotenv import load_dotenv
-from langchain.schema import Document
+from langchain_core.documents import Document
 from typing import List
 
 # Load env vars

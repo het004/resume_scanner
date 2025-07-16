@@ -1,6 +1,6 @@
 import os
 import shutil
-from langchain_community.document_loaders import UnstructuredFileLoader
+from langchain_community.document_loaders.unstructured import UnstructuredFileLoader
 
 ARTIFACTS_DIR = "artifacts"
 RESUME_DIR = os.path.join(ARTIFACTS_DIR, "raw_resumes")
