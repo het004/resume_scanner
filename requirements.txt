@@ -6,3 +6,4 @@ spacy
 python-dotenv
 langchain
 langchain_community
+pymongo
