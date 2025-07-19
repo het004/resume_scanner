@@ -11,7 +11,7 @@ from src.components.langchain_retrival import similarity_search
 from src.components.scoring_reportformating import generate_full_report
 
 
-#logging.basicConfig(level=logging.INFO)
+from src.loggers import logger
 
 
 def run_resume_pipeline(
@@ -20,46 +20,29 @@ def run_resume_pipeline(
     resume_index_name: str = "resume_index",
     model_name: str = "nomic-embed-text"
 ) -> Dict[str, str]:
-    """
-    Orchestrates the complete resume scanning pipeline:
-    - Loads files
-    - Stores raw to MongoDB
-    - Preprocesses and splits content
-    - Embeds and stores in FAISS
-    - Performs similarity search
-    - Generates full analysis report (SWOT, ATS, Suggestions)
 
-    Args:
-        resume_path (str): Path to the resume file.
-        jd_path (str): Path to the job description file.
-        resume_index_name (str): Unique name for the FAISS index.
-        model_name (str): Ollama model to use for embeddings.
-
-    Returns:
-        Dict[str, str]: Final report dictionary.
-    """
 
     # STEP 1: Load resume and JD
-    #logging.info("📂 Loading documents...")
+    logger.logging.info("📂 Loading documents...")
     resume_docs = load_document(resume_path)
     jd_docs = load_document(jd_path)
 
     # STEP 2: Push raw to MongoDB
-    #logging.info("🗃️ Pushing raw resume and JD to MongoDB...")
+    logger.logging.info("🗃️ Pushing raw resume and JD to MongoDB...")
     push_raw_documents(resume_docs, doc_type="resume", file_name=resume_path)
     push_raw_documents(jd_docs, doc_type="job_description", file_name=jd_path)
 
     # STEP 3: Preprocess (chunk) documents
-    #logging.info("🧹 Preprocessing documents...")
+    logger.logging.info("🧹 Preprocessing documents...")
     resume_chunks = preprocess_documents(resume_docs)
     jd_chunks = preprocess_documents(jd_docs)
 
     # STEP 4: Embed resume chunks and store to FAISS
-    #logging.info("📌 Embedding resume chunks with FAISS...")
+    logger.logging.info("📌 Embedding resume chunks with FAISS...")
     embed_and_store_faiss_ollama(resume_chunks, index_name=resume_index_name, model_name=model_name)
 
     # STEP 5: Prepare query from JD and run similarity search
-    #logging.info("🔎 Performing similarity search against JD...")
+    logger.logging.info("🔎 Performing similarity search against JD...")
     jd_text = " ".join([doc.page_content for doc in jd_chunks])
     top_resume_chunks = similarity_search(
         query=jd_text,
@@ -69,8 +52,8 @@ def run_resume_pipeline(
     )
 
     # STEP 6: Generate report
-    #logging.info("🧠 Generating final report (SWOT, ATS, Suggestions)...")
+    logger.logging.info("🧠 Generating final report (SWOT, ATS, Suggestions)...")
     report = generate_full_report(resume_chunks=top_resume_chunks, jd_text=jd_text)
 
-    #logging.info("✅ Pipeline completed successfully.")
+    logger.logging.info("✅ Pipeline completed successfully.")
     return report
