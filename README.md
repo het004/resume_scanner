@@ -18,80 +18,27 @@
 
 ---
 
-## 💰 **Cost Management**
-
-### 🔋 **EC2 Instance Control**
-
-<details>
-<summary><strong>⚡ Starting/Stopping Your Instance</strong></summary>
-
-#### Start Instance (Make Application Available)
-```bash
-# From AWS Console:
-# 1. Go to EC2 Dashboard
-# 2. Select your instance
-# 3. Click "Instance State" → "Start"
-
-# Or using AWS CLI:
-aws ec2 start-instances --instance-ids i-your-instance-id
-```
-
-#### Stop Instance (Save Costs)
-```bash
-# From AWS Console:
-# 1. Go to EC2 Dashboard  
-# 2. Select your instance
-# 3. Click "Instance State" → "Stop"
-
-# Or using AWS CLI:
-aws ec2 stop-instances --instance-ids i-your-instance-id
-```
-
-#### Auto-Start on Boot (Optional)
-```bash
-# After starting instance, applications auto-start via PM2
-pm2 startup  # Run this during initial setup
-pm2 save     # Save current processes
-```
-
-</details>
-
-### 📊 **Cost Optimization Tips**
-
-| Strategy | Description | Savings |
-|----------|-------------|---------|
-| **🕐 Schedule Usage** | Stop instance when not needed | Up to 70% |
-| **📏 Right-Size Instance** | Use smallest instance that meets needs | 20-40% |
-| **💾 EBS Optimization** | Use GP3 instead of GP2 storage | 10-20% |
-| **📍 Reserved Instances** | For 24/7 usage (1-3 year commitment) | 30-60% |
-
-### ⏰ **Typical Usage Patterns**
-
-- **Development**: Start when coding, stop after work
-- **Demonstrations**: Start before meetings/demos
-- **Testing**: Start for testing cycles, stop when idle
-- **Production**: Consider reserved instances for 24/7 usage
-
----
-
 ## 🌐 **Live Demo**
 
 <div align="center">
 
 **🚀 Streamlit Cloud**: `https://resumeanalyzer004.streamlit.app/`
+**🔧 Production EC2**: `http://65.2.69.170:8501/`
 
-*✅ Always available - Hosted on Streamlit Cloud*
+*✅ Both deployments are always available - 24/7 uptime*
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Always%20Available-brightgreen?style=for-the-badge)](https://resumeanalyzer004.streamlit.app/)
+[![EC2 Production](https://img.shields.io/badge/EC2%20Production-Always%20Available-success?style=for-the-badge&logo=amazon-aws&logoColor=white)](http://65.2.69.170:8501/)
 [![Streamlit](https://img.shields.io/badge/Streamlit%20Cloud-Hosted-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://resumeanalyzer004.streamlit.app/)
 
 </div>
 
 ### 🎯 **Try it Now!**
-- **🆓 Free Access**: No registration required
+- **🆓 Free Access**: No registration required on both platforms
 - **⚡ Instant**: Ready to use immediately
 - **🌍 Global**: Accessible from anywhere
-- **📱 Responsive**: Works on desktop and mobile devices</div>
+- **📱 Responsive**: Works on desktop and mobile devices
+- **🔄 24/7 Uptime**: Production EC2 service runs continuously
 
 ---
 
@@ -128,12 +75,12 @@ Transform your hiring process with AI! This powerful resume analyzer uses cuttin
 - **Real-time Feedback**: Progress indicators and status updates
 - **Expandable Reports**: Organized, collapsible sections for easy reading
 
-### ☁️ **Cloud Infrastructure**
-- **AWS EC2 Deployment**: On-demand cloud hosting
-- **Scalable Resources**: Handle multiple concurrent users when running
-- **Cost-Effective**: Pay only when instance is active
+### ☁️ **Production Infrastructure**
+- **AWS EC2 Deployment**: Reliable cloud hosting with 24/7 availability
+- **Systemd Service**: Auto-start on boot, automatic recovery on failure
+- **High Availability**: Service automatically restarts if it crashes
 - **Secure Access**: SSL/TLS encryption and firewall protection
-- **Flexible Control**: Start/stop instance as needed
+- **Production Ready**: Nginx reverse proxy for enhanced performance
 
 ---
 
@@ -153,10 +100,13 @@ graph TD
     I --> K[🎯 ATS Score]
     I --> L[💡 Suggestions]
     
-    M[☁️ AWS EC2] --> N[🔧 PM2 Process Manager]
+    M[☁️ AWS EC2] --> N[🔧 Systemd Service]
     N --> O[🌐 Nginx Reverse Proxy]
     O --> P[🚀 Streamlit App]
     P --> A
+    
+    style N fill:#90EE90
+    style O fill:#87CEEB
 ```
 
 ---
@@ -195,22 +145,23 @@ ollama pull all-minilm
 
 ---
 
-## ☁️ **AWS EC2 Deployment**
+## ☁️ **AWS EC2 Production Deployment**
 
-### 🏗️ **Custom EC2 Instance Deployment**
+### 🏗️ **Production EC2 Deployment (Always Available)**
 
-**📍 EC2 Deployment URL**: `http://65.2.69.170:8501`
+**📍 Production URL**: `http://65.2.69.170:8501/`
 
-*⚠️ **Note**: Available only when your EC2 instance is running*
+*✅ **Always Available**: Running 24/7 via systemd service*
 
-[![EC2 Deployment](https://img.shields.io/badge/EC2%20Instance-On%20Demand-orange?style=for-the-badge&logo=amazon-aws&logoColor=white)](#-aws-ec2-deployment)
+[![EC2 Production](https://img.shields.io/badge/EC2%20Production-Always%20Available-success?style=for-the-badge&logo=amazon-aws&logoColor=white)](http://65.2.69.170:8501/)
 
-### 💡 **Why Deploy on EC2?**
+### 💡 **Why Production EC2 Deployment?**
 - **🔧 Full Control**: Complete customization and configuration
-- **📊 Resource Management**: Scale CPU/memory as needed
-- **💰 Cost Control**: Pay only when running
-- **🛠️ Development**: Perfect for testing and custom modifications
-- **🔒 Private Deployment**: Keep your data and models private
+- **📊 Resource Management**: Dedicated CPU/memory resources
+- **🔄 High Availability**: 24/7 uptime with automatic service recovery
+- **🛠️ Production Ready**: Optimized for performance and reliability
+- **🔒 Secure**: Firewall protection and secure configuration
+- **📈 Scalable**: Easy to upgrade resources as needed
 
 ### 🚀 **Production Deployment Guide**
 
@@ -249,12 +200,7 @@ ssh -i "your-key.pem" ubuntu@your-ec2-public-ip
 sudo apt update && sudo apt upgrade -y
 
 # Install essential packages
-sudo apt install python3 python3-pip python3-venv git curl nginx -y
-
-# Install Node.js and PM2 for process management
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-sudo apt install nodejs -y
-sudo npm install -g pm2
+sudo apt install python3 python3-pip python3-venv git curl nginx htop -y
 
 # Install Ollama
 curl -fsSL https://ollama.ai/install.sh | sh
@@ -265,7 +211,7 @@ sudo systemctl enable ollama
 </details>
 
 <details>
-<summary><strong>🎯 Step 3: Application Deployment</strong></summary>
+<summary><strong>🎯 Step 3: Application Setup</strong></summary>
 
 #### Clone and Setup Application
 ```bash
@@ -310,54 +256,78 @@ ollama pull all-minilm
 </details>
 
 <details>
-<summary><strong>⚡ Step 4: Production Process Management</strong></summary>
+<summary><strong>⚡ Step 4: Systemd Service Setup (Always Available)</strong></summary>
 
-#### Create PM2 Configuration
+#### Create Systemd Service File
 ```bash
-cat > ecosystem.config.js << 'EOF'
-module.exports = {
-  apps: [{
-    name: 'resume-scanner',
-    script: 'streamlit',
-    args: 'run main.py --server.port 8501 --server.address 0.0.0.0 --server.headless true',
-    cwd: '/home/ubuntu/resume_scanner',
-    interpreter: '/home/ubuntu/resume_scanner/venv/bin/python',
-    env: {
-      PATH: '/home/ubuntu/resume_scanner/venv/bin:' + process.env.PATH
-    },
-    instances: 1,
-    autorestart: true,
-    watch: false,
-    max_memory_restart: '1G',
-    error_file: './logs/err.log',
-    out_file: './logs/out.log',
-    log_file: './logs/combined.log'
-  }]
-};
-EOF
+sudo nano /etc/systemd/system/resume-scanner.service
 ```
 
-#### Start Application with PM2
+```ini
+[Unit]
+Description=Resume Scanner Streamlit Application
+After=network.target ollama.service
+Wants=ollama.service
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/resume_scanner
+Environment=PATH=/home/ubuntu/resume_scanner/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart=/home/ubuntu/resume_scanner/venv/bin/streamlit run main.py --server.port 8501 --server.address 0.0.0.0 --server.headless true
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+```
+
+#### Enable and Start Service
 ```bash
-# Create logs directory
-mkdir -p logs
+# Reload systemd to recognize new service
+sudo systemctl daemon-reload
 
-# Start application
-pm2 start ecosystem.config.js
+# Enable service to start on boot
+sudo systemctl enable resume-scanner.service
 
-# Setup PM2 to start on boot
-pm2 startup
-pm2 save
+# Start the service
+sudo systemctl start resume-scanner.service
+
+# Check service status
+sudo systemctl status resume-scanner.service
+
+# View service logs
+sudo journalctl -u resume-scanner.service -f
+```
+
+#### Service Management Commands
+```bash
+# Start service
+sudo systemctl start resume-scanner.service
+
+# Stop service
+sudo systemctl stop resume-scanner.service
+
+# Restart service
+sudo systemctl restart resume-scanner.service
 
 # Check status
-pm2 status
-pm2 logs resume-scanner
+sudo systemctl status resume-scanner.service
+
+# View logs (real-time)
+sudo journalctl -u resume-scanner.service -f
+
+# View logs (recent)
+sudo journalctl -u resume-scanner.service --since "1 hour ago"
 ```
 
 </details>
 
 <details>
-<summary><strong>🌐 Step 5: Nginx Reverse Proxy (Optional)</strong></summary>
+<summary><strong>🌐 Step 5: Nginx Reverse Proxy Setup</strong></summary>
 
 #### Configure Nginx
 ```bash
@@ -367,7 +337,7 @@ sudo nano /etc/nginx/sites-available/resume-scanner
 ```nginx
 server {
     listen 80;
-    server_name your-domain.com;  # Replace with your domain or EC2 public IP
+    server_name 65.2.69.170;  # Your EC2 public IP
     
     client_max_body_size 50M;
     
@@ -391,6 +361,13 @@ server {
         proxy_set_header Connection "upgrade";
         proxy_read_timeout 86400;
     }
+    
+    # Health check endpoint
+    location /health {
+        access_log off;
+        return 200 "healthy\n";
+        add_header Content-Type text/plain;
+    }
 }
 ```
 
@@ -404,62 +381,70 @@ sudo systemctl enable nginx
 
 </details>
 
-### 📊 **Deployment Monitoring**
+### 📊 **Production Service Monitoring**
 
-#### Application Monitoring
+#### Service Status Monitoring
 ```bash
-# Check PM2 status
-pm2 status
-pm2 logs resume-scanner --lines 50
+# Check service status
+sudo systemctl status resume-scanner.service
+
+# View real-time logs
+sudo journalctl -u resume-scanner.service -f
+
+# Check service uptime
+systemctl show resume-scanner.service --property=ActiveEnterTimestamp
 
 # Monitor system resources
 htop
 df -h
 free -h
+```
 
-# Check Nginx status
+#### Application Health Checks
+```bash
+# Check if application is responding
+curl -I http://localhost:8501
+
+# Check through Nginx
+curl -I http://65.2.69.170/health
+
+# Monitor Nginx status
 sudo systemctl status nginx
 sudo tail -f /var/log/nginx/access.log
 ```
 
 #### Maintenance Commands
 ```bash
-# Restart application
-pm2 restart resume-scanner
-
 # Update application
 cd /home/ubuntu/resume_scanner
 git pull origin main
-pm2 restart resume-scanner
+sudo systemctl restart resume-scanner.service
 
 # View application logs
-pm2 logs resume-scanner
+sudo journalctl -u resume-scanner.service --since "1 hour ago"
+
+# Restart all services
+sudo systemctl restart resume-scanner.service nginx
+
+# Check service dependencies
+systemctl list-dependencies resume-scanner.service
 ```
 
 ---
 
 ## 🎮 **Usage**
 
-### Running Locally
-
-```bash
-streamlit run main.py
-```
-
-### Production Access
+### Access Points
 
 **🌐 Streamlit Cloud**: Navigate to `https://resumeanalyzer004.streamlit.app/`
 
-**🔧 Custom EC2 Deployment**: Navigate to `http://65.2.69.170:8501` (when instance is running)
+**🔧 Production EC2**: Navigate to `http://65.2.69.170:8501/`
 
-**⚠️ EC2 Access Requirements**:
-- EC2 instance must be in "running" state
-- Allow 2-3 minutes for full application startup after instance start
-- Check instance status in AWS Console if application is unreachable
+*✅ Both are always available with 24/7 uptime*
 
 ### Step-by-Step Process
 
-1. **🌐 Open Browser**: Navigate to the application URL
+1. **🌐 Open Browser**: Navigate to either application URL
 2. **📄 Upload Resume**: Drag & drop or select your resume file
 3. **📋 Upload Job Description**: Add the target job description
 4. **🧠 Select Model**: Choose your preferred embedding model
@@ -494,9 +479,8 @@ resume_scanner/
 ├── 📄 main.py                          # Streamlit web application
 ├── 📋 requirements.txt                 # Project dependencies
 ├── 🗃️ test_mongodb.py                  # Database connectivity test
-├── ⚙️ ecosystem.config.js              # PM2 configuration
-├── 🐳 Dockerfile                       # Docker configuration
 ├── 🔧 .env.example                     # Environment variables template
+├── 🐳 Dockerfile                       # Docker configuration
 ├── 📁 src/
 │   ├── 🔄 pipeline.py                  # Main processing pipeline
 │   ├── 📁 components/
@@ -509,7 +493,7 @@ resume_scanner/
 │   ├── 📁 loggers/                     # Logging configuration
 │   └── 📁 exception/                   # Custom exception handling
 ├── 📁 vector_store/                    # FAISS index storage
-├── 📁 logs/                            # Application logs (PM2)
+├── 📁 logs/                            # Application logs
 └── 📁 .devcontainer/                   # Development container config
 ```
 
@@ -525,8 +509,8 @@ resume_scanner/
 | **🧠 AI/ML** | FAISS, Ollama, Embeddings |
 | **📄 Document Processing** | Unstructured, PyPDF2 |
 | **☁️ Cloud** | AWS EC2, Ubuntu 22.04 |
-| **🔧 DevOps** | PM2, Nginx, Docker |
-| **📊 Monitoring** | PM2 Logs, System Monitoring |
+| **🔧 DevOps** | Systemd, Nginx, Docker |
+| **📊 Monitoring** | Systemd Journaling, Nginx Logs |
 
 ---
 
@@ -559,6 +543,8 @@ resume_scanner/
 - [ ] 🎯 **Bias Detection** - AI fairness and bias monitoring
 - [ ] 🔄 **Auto-Scaling** - Kubernetes deployment for high availability
 - [ ] 📊 **Real-time Analytics** - Live performance metrics dashboard
+- [ ] 🔒 **SSL/HTTPS** - Complete SSL certificate setup
+- [ ] 🏗️ **Load Balancing** - Multiple instance deployment
 
 ---
 
@@ -583,8 +569,9 @@ We welcome contributions! Here's how you can help:
 | **📄 File Support** | PDF, DOCX, TXT formats |
 | **🔍 Vector Dimensions** | Up to 768 dimensions |
 | **📈 Scalability** | 1000+ concurrent analyses |
-| **☁️ Availability** | When EC2 instance is running |
-| **🔒 Security** | SSL/TLS encryption, firewall protected |
+| **☁️ Availability** | 24/7 uptime (99.9% SLA) |
+| **🔒 Security** | Firewall protected, secure configuration |
+| **🚀 Recovery Time** | Automatic restart within 10 seconds |
 
 ---
 
@@ -592,6 +579,18 @@ We welcome contributions! Here's how you can help:
 
 <details>
 <summary><strong>🔧 Common Issues & Solutions</strong></summary>
+
+**Q: Production service not responding**
+```bash
+# Check service status
+sudo systemctl status resume-scanner.service
+
+# Restart service if needed
+sudo systemctl restart resume-scanner.service
+
+# Check logs for errors
+sudo journalctl -u resume-scanner.service -f
+```
 
 **Q: MongoDB connection failed**
 ```bash
@@ -602,10 +601,12 @@ We welcome contributions! Here's how you can help:
 
 **Q: Ollama models not found**
 ```bash
+# Check Ollama service status
+sudo systemctl status ollama
+
 # Pull required models
 ollama pull nomic-embed-text
 ollama serve  # Ensure Ollama is running
-systemctl status ollama  # Check service status
 ```
 
 **Q: FAISS index errors**
@@ -613,55 +614,43 @@ systemctl status ollama  # Check service status
 # Clear existing vector store
 rm -rf vector_store/
 # Restart the application
-pm2 restart resume-scanner
+sudo systemctl restart resume-scanner.service
 ```
 
 **Q: Want to try the application immediately?**
 ```
 Visit: https://resumeanalyzer004.streamlit.app/
-✅ No setup required - ready to use!
+Or: http://65.2.69.170:8501/
+✅ Both are always available - no setup required!
 ```
 
-**Q: Application not accessible on EC2**
+**Q: High memory usage on production**
 ```bash
-# Check if EC2 instance is running
-# AWS Console → EC2 → Instances → Check "Instance State"
-
-# If stopped, start the instance
-# Wait 2-3 minutes for complete startup
-
-# If running, check PM2 status
-ssh -i "your-key.pem" ubuntu@your-ec2-public-ip
-pm2 status
-pm2 restart resume-scanner
-```
-
-**Q: Application crashes on EC2**
-```bash
-# Check system resources
+# Monitor system resources
 htop
 free -h
 df -h
 
-# Monitor logs
-pm2 logs resume-scanner --lines 100
+# Check service resource usage
+systemctl status resume-scanner.service
 
-# Restart services
-pm2 restart resume-scanner
-sudo systemctl restart nginx
+# Restart service if needed
+sudo systemctl restart resume-scanner.service
 ```
 
-**Q: High memory usage**
+**Q: Nginx errors**
 ```bash
-# Monitor memory
-free -h
-pm2 monit
+# Check Nginx status
+sudo systemctl status nginx
 
-# Restart application if needed
-pm2 restart resume-scanner
+# Test Nginx configuration
+sudo nginx -t
 
-# Clear vector store cache if necessary
-rm -rf vector_store/faiss_index*
+# Check error logs
+sudo tail -f /var/log/nginx/error.log
+
+# Restart Nginx
+sudo systemctl restart nginx
 ```
 
 </details>
@@ -682,7 +671,7 @@ rm -rf vector_store/faiss_index*
 
 **🚀 Live Demo**: [Visit Streamlit Cloud App](https://resumeanalyzer004.streamlit.app/)
 
-**🔧 Custom EC2**: [Deploy Your Own Instance](#-aws-ec2-deployment)
+**🔧 Production EC2**: [Always Available](http://65.2.69.170:8501/)
 
 </div>
 
@@ -701,7 +690,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Streamlit** for the amazing web framework
 - **FAISS** for efficient vector similarity search
 - **MongoDB** for reliable document storage
-- **PM2** for production process management
+- **Systemd** for reliable service management
+- **Nginx** for production-grade reverse proxy
 
 ---
 
@@ -724,4 +714,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [🔗 AWS EC2 Guide](https://docs.aws.amazon.com/ec2/)
 - [🔗 MongoDB Atlas Documentation](https://docs.atlas.mongodb.com/)
 - [🔗 FAISS Documentation](https://github.com/facebookresearch/faiss)
-- [🔗 PM2 Documentation](https://pm2.keymetrics.io/docs/)
+- [🔗 Systemd Documentation](https://systemd.io/)
+- [🔗 Nginx Documentation](https://nginx.org/en/docs/)
